@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Shopify App</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@shopify/polaris@4.9.1/styles.min.css"
+    />
+    <script src="https://unpkg.com/@shopify/app-bridge@2"></script>
+    <script>
+      const AppBridge = window['app-bridge']
+      const createApp = AppBridge.createApp
+      const actions = AppBridge.actions
+      const Redirect = actions.Redirect
+
+      const shopOrigin = 'https://rohans-test-shop.myshopify.com',
+      const apiKey = 'c207b7e7c96be19887600333d12ab071'
+      const redirectUri = 'https://shop-test.rohan.ai/'
+
+      const permissionUrl =
+        'https://' +
+        shopOrigin +
+        '/admin' +
+        '/oauth/authorize?client_id=' +
+        apiKey +
+        '&scope=read_products,read_content&redirect_uri=' +
+        redirectUri
+
+      // If the current window is the 'parent', change the URL by setting location.href
+      if (window.top == window.self) {
+        window.location.assign(permissionUrl)
+
+        // If the current window is the 'child', change the parent's URL with Shopify App Bridge's Redirect action
+      } else {
+        const app = createApp({
+          apiKey: 'c207b7e7c96be19887600333d12ab071',
+          shopOrigin: 'https://rohans-test-shop.myshopify.com',
+        })
+
+        Redirect.create(app).dispatch(Redirect.Action.REMOTE, permissionUrl)
+      }
+    </script>
+  </head>
+  <body>
+    <div class="wrapper">
+      <h1>Shopify App</h1>
+    </div>
+  </body>
+</html>
