@@ -1,0 +1,4 @@
+export SHOPIFY_API_KEY=
+export SHOPIFY_API_SECRET=
+export SHOPIFY_SHOP=
+export SHOPIFY_HOST=

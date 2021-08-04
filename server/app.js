@@ -6,7 +6,6 @@ const bodyparser = require('koa-bodyparser')
 const cors = require('@koa/cors')
 const koaStatic = require('koa-static')
 const session = require('koa-session')
-const mount = require('koa-mount')
 
 const {
   default: shopifyAuth,
@@ -14,13 +13,7 @@ const {
 } = require('@shopify/koa-shopify-auth')
 const { default: Shopify, ApiVersion } = require('@shopify/shopify-api')
 
-const {
-  SHOPIFY_API_KEY,
-  SHOPIFY_API_SECRET,
-  SHOPIFY_SHOP,
-  SHOPIFY_HOST,
-  SHOPIFY_SCOPES,
-} = process.env
+const { SHOPIFY_API_KEY, SHOPIFY_API_SECRET, SHOPIFY_HOST } = process.env
 
 Shopify.Context.initialize({
   API_KEY: SHOPIFY_API_KEY,
@@ -142,17 +135,16 @@ router.get('/', async (ctx) => {
       <p>
         <strong>Latest Product: </strong>
         ${products.edges[0].node.title}
-
       </p>
 
       <p>
         <strong>Total Calls Remaining: </strong>
         ${currentlyAvailable}/${maximumAvailable}
       </p>
+
       <p>
         <strong>Bulk Operation status: </strong>
         ${currentBulkOperation?.status || 'NO BULK OPERATION FOUND'}
-
       </p>
     </div>
     `
